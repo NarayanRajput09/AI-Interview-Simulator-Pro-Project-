@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Interview Simulator Pro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style3.css" />
+</head>
+<body>
+
+<!-- Animated Background -->
+<div class="bg-orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+
+<!-- HEADER -->
+<header class="top-header">
+  <div class="logo-area">
+    <div class="ai-avatar" id="aiAvatar">
+      <div class="avatar-ring"></div>
+      <span class="avatar-icon">🤖</span>
+    </div>
+    <div>
+      <h1>AI Interview Pro</h1>
+      <p class="subtitle">Your Smart Interview Coach</p>
+    </div>
+  </div>
+  <div class="header-controls">
+    <button id="themeBtn" class="icon-btn" title="Toggle Theme">🌙</button>
+    <button id="voiceToggleBtn" class="icon-btn active-voice" title="Voice On/Off">🔊</button>
+    <button id="helpBtn" class="icon-btn" title="Help">❓</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- CATEGORY SELECTOR -->
+  <div class="glass-card category-card" id="categoryCard">
+    <h2 class="card-title">🎯 Choose Interview Category</h2>
+    <div class="category-grid">
+      <button class="cat-btn active" data-cat="javascript">⚡ JavaScript</button>
+      <button class="cat-btn" data-cat="html_css">🎨 HTML & CSS</button>
+      <button class="cat-btn" data-cat="python">🐍 Python</button>
+      <button class="cat-btn" data-cat="hr">🤝 HR Round</button>
+      <button class="cat-btn" data-cat="dsa">🧩 DSA</button>
+      <button class="cat-btn" data-cat="system">🏗️ System Design</button>
+    </div>
+    <div class="difficulty-row">
+      <label>Difficulty:</label>
+      <select id="difficultySelect">
+        <option value="easy">🟢 Easy</option>
+        <option value="medium" selected>🟡 Medium</option>
+        <option value="hard">🔴 Hard</option>
+      </select>
+      <label>Timer:</label>
+      <select id="timerSelect">
+        <option value="30">30s</option>
+        <option value="60" selected>60s</option>
+        <option value="90">90s</option>
+      </select>
+    </div>
+    <button id="startBtn" class="btn-primary pulse-btn">🚀 Start Interview</button>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress-wrapper" id="progressWrapper" style="display:none">
+    <div class="progress-info">
+      <span id="progressLabel">Question 1 of 10</span>
+      <span id="scoreLabel">Score: 0</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <!-- QUESTION CARD -->
+  <div class="glass-card question-card" id="questionCard" style="display:none">
+    <div class="question-header">
+      <span class="q-badge" id="qBadge">Q1</span>
+      <div class="timer-circle" id="timerCircle">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="45" class="timer-bg"/>
+          <circle cx="50" cy="50" r="45" class="timer-ring" id="timerRing"/>
+        </svg>
+        <span id="timer">60</span>
+      </div>
+    </div>
+
+    <div class="voice-wave" id="voiceWave">
+      <div class="ai-speaking-label">AI is speaking...</div>
+      <div class="wave-bars">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <h2 id="questionBox" class="question-text">Ready to begin!</h2>
+
+    <div class="tip-box" id="tipBox"></div>
+
+    <div class="btn-row">
+      <button id="recordBtn" class="btn-record">
+        <span class="btn-icon">🎙️</span> Start Answer
+      </button>
+      <button id="stopBtn" class="btn-stop">
+        <span class="btn-icon">⏹️</span> Stop
+      </button>
+      <button id="nextBtn" class="btn-next">
+        Next →
+      </button>
+    </div>
+
+    <div class="answer-section">
+      <h3>📝 Your Answer:</h3>
+      <div id="answerText" class="answer-box"></div>
+      <div class="answer-meta" id="answerMeta"></div>
+    </div>
+
+    <div class="model-answer-wrap" id="modelAnswerWrap" style="display:none">
+      <button class="toggle-model-btn" id="toggleModelBtn">💡 Show Model Answer</button>
+      <div class="model-answer-box" id="modelAnswerBox" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- RESULT CARD -->
+  <div class="glass-card result-card" id="resultCard" style="display:none">
+    <div class="result-header">
+      <div class="trophy-anim">🏆</div>
+      <h2>Interview Completed!</h2>
+      <div class="score-ring-wrap">
+        <svg viewBox="0 0 120 120" class="score-svg">
+          <circle cx="60" cy="60" r="54" class="score-bg-ring"/>
+          <circle cx="60" cy="60" r="54" class="score-fill-ring" id="scoreFillRing"/>
+        </svg>
+        <div class="score-center">
+          <span id="finalScore">0</span>
+          <small>/ 100</small>
+        </div>
+      </div>
+      <p id="performanceBadge" class="perf-badge"></p>
+    </div>
+    <div id="reviewList" class="review-list"></div>
+    <div class="result-actions">
+      <button id="restartBtn" class="btn-primary">🔄 Try Again</button>
+      <button id="downloadBtn" class="btn-outline">⬇️ Download Report</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- HELP MODAL -->
+<div class="modal-overlay" id="helpModal" style="display:none">
+  <div class="modal-box glass-card">
+    <button class="modal-close" id="closeHelp">✕</button>
+    <h2>📖 How to Use</h2>
+    <ul class="help-list">
+      <li>🎯 Select a category and difficulty</li>
+      <li>🚀 Click <b>Start Interview</b> to begin</li>
+      <li>🔊 AI will speak each question aloud</li>
+      <li>🎙️ Click <b>Start Answer</b> to record voice</li>
+      <li>⏹️ Click <b>Stop</b> when done speaking</li>
+      <li>➡️ Click <b>Next</b> to move to next question</li>
+      <li>💡 View model answers after answering</li>
+      <li>🏆 Get your score and download report</li>
+    </ul>
+  </div>
+</div>
+
+
+
+<div class="interview-layout">
+
+  <!-- LEFT CAMERA CARD -->
+  <div class="glass-card camera-card">
+
+    <h3>🎥 AI Proctoring</h3>
+
+    <div class="camera-monitor">
+      <video id="video" autoplay muted playsinline></video>
+      <canvas id="canvas" style="display:none"></canvas>
+
+      <div class="cam-status" id="camStatus">
+        🟢 Face Detected
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT INTERVIEW CARD -->
+  <div class="interview-content">
+
+    <!-- QUESTION CARD -->
+    <div class="glass-card question-card" id="questionCard" style="display:none">
+
+      <!-- your existing question card content -->
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+
+<script src="script3.js"></script>
+                                           </body>
+</html>
